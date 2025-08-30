@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "validate": "node scripts/validator.js",
-    "generate": "python scripts/generator.py"
+    "generate": "python -m pip install -r requirements.txt && python scripts/generator.py"
   },
   "dependencies": {
     "ajv": "^8.12.0"
