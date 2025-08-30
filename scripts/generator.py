@@ -1,13 +1,13 @@
 import json
 import shutil
 from pathlib import Path
-
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 ROOT = Path(__file__).resolve().parent.parent
 DIST_DIR = ROOT / "dist"
 PROJECTS_SRC = ROOT / "projects"
 PROJECTS_DEST = DIST_DIR / "projects"
-
+TEMPLATES_DIR = ROOT / "templates"
 
 def main():
     """Generate static site under ``dist`` directory."""
@@ -61,182 +61,13 @@ def main():
 
 
 def generate_index(projects, tags):
-    tag_options = "\n".join(f"      <option>{t}</option>" for t in tags)
-
-    cards = []
-    for p in projects:
-        tag_attr = ",".join(p["tags"])
-        tags_line = ", ".join(p["tags"]) if p["tags"] else "-"
-        cards.append(
-            f"""
-      <div class=\"card\" data-type=\"{p['type']}\" data-age=\"{p['age_range']}\" data-tags=\"{tag_attr}\">
-        <a href=\"projects/{p['dir']}/index.html\">
-          <img src=\"{p['cover']}\" alt=\"{p['title']} kapak\">
-        </a>
-        <h3>{p['title']}</h3>
-        <p>{p['description']}</p>
-        <p class=\"meta\">Tür: {p['type']} | Yaş: {p['age_range']}</p>
-        <p class=\"tags\">Etiketler: {tags_line}</p>
-        <p class=\"author\">Yazar: <a href=\"https://github.com/{p['author']}\" target=\"_blank\" rel=\"noopener noreferrer\">{p['author']}</a></p>
-      </div>""",
-        )
-
-    cards_html = "\n".join(cards) if cards else "<p>Henüz proje eklenmedi.</p>"
-
-    return f"""<!DOCTYPE html>
-<html lang=\"tr\">
-<head>
-<meta charset=\"UTF-8\">
-<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-<title>Çocuklara Kod</title>
-<style>
-:root {{
-  --primary:#0366d6;
-  --bg:#f0f2f5;
-}}
-body {{
-  font-family:'Segoe UI',sans-serif;
-  margin:0;
-  padding:20px;
-  background:var(--bg);
-  color:#333;
-}}
-header {{
-  text-align:center;
-  margin-bottom:30px;
-}}
-header a {{
-  text-decoration:none;
-  color:inherit;
-}}
-.filters {{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  justify-content:center;
-  margin-bottom:20px;
-}}
-.filters label {{
-  font-weight:600;
-}}
-.filters select {{
-  padding:6px 10px;
-  border-radius:4px;
-  border:1px solid #ccc;
-}}
-.filters button {{
-  padding:6px 10px;
-  border-radius:4px;
-  border:1px solid #ccc;
-  cursor:pointer;
-}}
-#projects {{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:20px;
-}}
-.card {{
-  border:1px solid #ddd;
-  padding:15px;
-  border-radius:8px;
-  box-shadow:0 2px 4px rgba(0,0,0,0.1);
-  background:#fff;
-  transition:transform .2s;
-}}
-.card:hover {{
-  transform:translateY(-4px);
-}}
-.card img {{
-  width:100%;
-  height:auto;
-  border-radius:4px;
-}}
-.author a {{
-  text-decoration:none;
-  color:var(--primary);
-}}
-.tags {{
-  font-size:0.9em;
-  color:#555;
-}}
-@media (max-width:600px) {{
-  body {{
-    padding:10px;
-  }}
-  .filters {{
-    flex-direction:column;
-    align-items:stretch;
-  }}
-}}
-</style>
-</head>
-<body>
-<header>
-  <h1><a href="/">Çocuklara Kod</a></h1>
-</header>
-<div class=\"filters\">
-  <label>Tür:
-    <select id=\"typeFilter\">
-      <option value=\"\">Hepsi</option>
-      <option>Oyun</option>
-      <option>Araç</option>
-      <option>Etkinlik</option>
-      <option>Hikaye</option>
-      <option>Eğitici</option>
-    </select>
-  </label>
-  <label>Yaş:
-    <select id=\"ageFilter\">
-      <option value=\"\">Hepsi</option>
-      <option>3-5</option>
-      <option>6-8</option>
-      <option>9-12</option>
-      <option>Tümü</option>
-    </select>
-  </label>
-  <label>Etiket:
-    <select id=\"tagFilter\">
-      <option value=\"\">Hepsi</option>
-{tag_options}
-    </select>
-  </label>
-  <button id=\"resetFilters\">Sıfırla</button>
-</div>
-<div id=\"projects\">
-{cards_html}
-</div>
-<script>
-const typeFilter=document.getElementById('typeFilter');
-const ageFilter=document.getElementById('ageFilter');
-const tagFilter=document.getElementById('tagFilter');
-const resetBtn=document.getElementById('resetFilters');
-const cards=Array.from(document.querySelectorAll('.card'));
-  function applyFilters(){{
-    const t=typeFilter.value;
-    const a=ageFilter.value;
-    const tag=tagFilter.value;
-    cards.forEach(c=>{{
-      const tags=c.dataset.tags?c.dataset.tags.split(','):
-        [];
-      const show=(!t||c.dataset.type===t)&&(!a||c.dataset.age===a)&&(!tag||tags.includes(tag));
-      c.style.display=show?'block':'none';
-    }});
-  }}
-typeFilter.addEventListener('change',applyFilters);
-ageFilter.addEventListener('change',applyFilters);
-tagFilter.addEventListener('change',applyFilters);
-resetBtn.addEventListener('click',()=>{{
-  typeFilter.value='';
-  ageFilter.value='';
-  tagFilter.value='';
-  applyFilters();
-}});
-</script>
-</body>
-</html>
-"""
+    env = Environment(
+        loader=FileSystemLoader(TEMPLATES_DIR),
+        autoescape=select_autoescape(["html", "xml"]),
+    )
+    template = env.get_template("index.html")
+    return template.render(projects=projects, tags=tags)
 
 
 if __name__ == "__main__":
     main()
-

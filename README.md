@@ -5,6 +5,6 @@ Topluluk tarafından oluşturulan ve çocuklara yönelik saf HTML, CSS ve JavaSc
 ## Geliştirme
 
 - `npm run validate` : Projelerin meta verilerini şemaya göre doğrular.
-- `npm run generate` : Statik siteyi `dist/` klasöründe üretir.
+- `npm run generate` : Statik siteyi `dist/` klasöründe üretir (Jinja2 kullanır).
 
 Katkıda bulunmak için `project-template/` klasörünü kopyalayarak başlayabilirsiniz.
