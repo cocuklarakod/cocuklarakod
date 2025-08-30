@@ -1,0 +1,12 @@
+{
+  "name": "cocuklar-icin-projeler-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "validate": "node scripts/validator.js",
+    "generate": "node scripts/generator.js"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0"
+  }
+}

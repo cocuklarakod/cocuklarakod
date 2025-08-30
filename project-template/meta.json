@@ -1,0 +1,8 @@
+{
+  "title": "Örnek Proje",
+  "description": "Bu proje, çocuklara harfleri öğretmek için tasarlanmış harika bir başlangıç noktasıdır.",
+  "author": "github-username",
+  "type": "Eğitici",
+  "age_range": "3-5",
+  "tags": ["harfler", "okul-öncesi"]
+}
