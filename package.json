@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "validate": "node scripts/validator.js",
-    "generate": "node scripts/generator.js"
+    "generate": "python scripts/generator.py"
   },
   "dependencies": {
     "ajv": "^8.12.0"

@@ -18,9 +18,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       - run: npm install
       - run: npm run validate
-      - run: npm run generate
+      - run: python scripts/generator.py
         if: github.event_name == 'push'
       - uses: actions/upload-pages-artifact@v4
         if: github.event_name == 'push'
