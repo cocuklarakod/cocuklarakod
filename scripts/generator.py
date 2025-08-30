@@ -88,7 +88,7 @@ def generate_index(projects, tags):
 <head>
 <meta charset=\"UTF-8\">
 <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-<title>Çocuklar İçin Projeler</title>
+<title>Çocuklara Kod</title>
 <style>
 :root {{
   --primary:#0366d6;
@@ -105,6 +105,10 @@ header {{
   text-align:center;
   margin-bottom:30px;
 }}
+header a {{
+  text-decoration:none;
+  color:inherit;
+}}
 .filters {{
   display:flex;
   flex-wrap:wrap;
@@ -119,6 +123,12 @@ header {{
   padding:6px 10px;
   border-radius:4px;
   border:1px solid #ccc;
+}}
+.filters button {{
+  padding:6px 10px;
+  border-radius:4px;
+  border:1px solid #ccc;
+  cursor:pointer;
 }}
 #projects {{
   display:grid;
@@ -162,7 +172,7 @@ header {{
 </head>
 <body>
 <header>
-  <h1>Çocuklar İçin Projeler</h1>
+  <h1><a href="/">Çocuklara Kod</a></h1>
 </header>
 <div class=\"filters\">
   <label>Tür:
@@ -190,6 +200,7 @@ header {{
 {tag_options}
     </select>
   </label>
+  <button id=\"resetFilters\">Sıfırla</button>
 </div>
 <div id=\"projects\">
 {cards_html}
@@ -198,6 +209,7 @@ header {{
 const typeFilter=document.getElementById('typeFilter');
 const ageFilter=document.getElementById('ageFilter');
 const tagFilter=document.getElementById('tagFilter');
+const resetBtn=document.getElementById('resetFilters');
 const cards=Array.from(document.querySelectorAll('.card'));
   function applyFilters(){{
     const t=typeFilter.value;
@@ -213,6 +225,12 @@ const cards=Array.from(document.querySelectorAll('.card'));
 typeFilter.addEventListener('change',applyFilters);
 ageFilter.addEventListener('change',applyFilters);
 tagFilter.addEventListener('change',applyFilters);
+resetBtn.addEventListener('click',()=>{{
+  typeFilter.value='';
+  ageFilter.value='';
+  tagFilter.value='';
+  applyFilters();
+}});
 </script>
 </body>
 </html>
