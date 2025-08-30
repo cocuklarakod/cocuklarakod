@@ -20,4 +20,5 @@ document.getElementById('guess-btn').addEventListener('click', () => {
   }
   input.value = '';
   input.focus();
-});
+  });
+
