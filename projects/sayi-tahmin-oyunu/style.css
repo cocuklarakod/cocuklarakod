@@ -1,13 +1,27 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   padding: 20px;
-  background: #f9f9f9;
-  }
+  background: #f0f2f5;
+  color: #333;
+}
 
 input,
 button {
   padding: 10px;
   font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background: #3498db;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background: #2980b9;
 }
 
 #message {
