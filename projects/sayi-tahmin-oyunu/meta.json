@@ -1,0 +1,8 @@
+{
+  "title": "Sayı Tahmin Oyunu",
+  "description": "Bu oyunda 1 ile 100 arasında rastgele tutulan sayıyı ipuçlarını kullanarak bulmaya çalışırsınız.",
+  "author": "openai-bot",
+  "type": "Oyun",
+  "age_range": "9-12",
+  "tags": ["sayı", "tahmin"]
+}
